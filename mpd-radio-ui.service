@@ -5,7 +5,7 @@ After=mpd.service
 
 [Service]
 Type=simple
-WorkingDirectory=***REMOVED***/js/whistling/
+WorkingDirectory=<PATH-OF-MPD-RADIO-UI>
 ExecStart=/usr/bin/poetry run python3 server.py
 
 [Install]
