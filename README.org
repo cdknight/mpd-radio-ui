@@ -19,6 +19,8 @@ To set this up,
       For now, I don't know how to extract ~music_directory~ without just reading ~mpd.conf~. You only get relative paths (relative to ~music_directory~) with an MPD
       client to my knowledge, so to read the music file directly, we need the ~music_directory~.
 
+   d. Change ~STREAM_URL~ to the HTTP URL where MPD is streaming to.
+
 3. Run ~poetry run python3 server.py~ to start the server.
 4. Optionally, if you want to persistently run ~mpd-radio-ui~, edit ~mpd-radio-ui.service~ to match your system's configuration, and then copy it to the systemd user service directory (or if you're running it as root, copy it to ~/usr/lib/systemd/system~):
 
