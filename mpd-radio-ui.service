@@ -1,0 +1,12 @@
+[Unit]
+Description=MPD web radio
+WantedBy=mpd.service
+After=mpd.service
+
+[Service]
+Type=simple
+WorkingDirectory=***REMOVED***/js/whistling/
+ExecStart=/usr/bin/poetry run python3 server.py
+
+[Install]
+WantedBy=default.target

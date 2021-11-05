@@ -1,0 +1,25 @@
+* mpd-radio-ui
+
+A basic frontend for your MPD streams. It shows track information and lets you connect to an MPD's ~httpd~ stream.
+
+[[./mpd-radio-ui.jpg]]
+
+** Set up
+
+To set this up,
+1. Install ~poetry~ and run ~poetry install~.
+2. Copy ~config.py.template~ to ~config.py~ and change the variables.
+   a. You should generate a strong secret key if you're going to use this publicly. I use Ruby's ~SecureRandom~ to do this (~SecureRandom.alphanumeric 48~).
+   b. By default, ~mpd-radio-ui~ runs on port 19230 and on ~localhost~. You may want to change ~localhost~ to ~0.0.0.0~ if you want this to be accessible on a LAN.
+   c. You need to find the value of ~music_directory~ in your ~mpd.conf~ and put it in your ~config.py~ (set ~MPD_MUSIC_DIRECTORY~ to the value of ~music_directory~),
+      since MPD's album art detection is iffy and it's easier to directly read the music file's (or the music file directory's) metadata for album art.
+      For now, I don't know how to extract ~music_directory~ without just reading ~mpd.conf~. You only get relative paths (relative to ~music_directory~) with an MPD
+      client to my knowledge, so to read the music file directly, we need the ~music_directory~.
+3. Run ~poetry run python3 server.py~ to start the server.
+4. Optionally, if you want to persistently run ~mpd-radio-ui~, edit ~mpd-radio-ui.service~ to match your system's configuration, and then copy it to the systemd user service directory (or if you're running it as root, copy it to ~/usr/lib/systemd/system~):
+   a. For example (user):
+      #+begin_src bash
+            cp mpd-radio-ui.service ~/.config/systemd/user
+            systemctl daemon-reload --user
+            systemctl enable --now --user mpd-radio-ui
+      #+end_src

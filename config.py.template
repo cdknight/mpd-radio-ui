@@ -1,0 +1,14 @@
+# MPD host 
+MPD_HOST = 'localhost'
+# MPD port
+MPD_PORT = 6600
+# For now until I figure out how to get this from
+# the MPD client directly
+# You can find this value (music_directory) in your mpd.confg
+MPD_MUSIC_DIRECTORY = ''
+# Secret key for socketIO
+SECRET_KEY = ''
+# Webserver host
+HOST = 'localhost'
+# Webserver port
+PORT = 19230

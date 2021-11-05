@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "whistling"
+version = "0.1.0"
+description = ""
+authors = ["cdknight"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-mpd2 = "^3.0.4"
+Flask = "^2.0.2"
+Flask-SocketIO = "^5.1.1"
+eventlet = "^0.32.0"
+mutagen = "^1.45.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

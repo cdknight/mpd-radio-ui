@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+* {
+    font-family: "Rubik", sans-serif !important;
+    color: white;
+}
+
+h3 {
+    font-style: bold;
+    font-size: 2em;
+}
+
+body {
+    background: black;
+}
+
+#track-detail-box {
+    margin: 100px;
+
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+#track-detail-box > * {
+    margin: 20px;
+    margin-left: 10px;
+    background: #b14de2;
+}
+
+#track-info-box {
+    padding: 20px;
+    display: flex;
+}
+
+#track-info > * {
+    margin-top: 5px;
+}
+
+#details-box {
+    position: relative;
+}
+
+#details-box > #connection-details {
+    position: absolute;
+    bottom: 0;
+}
+
+#track-info > #track-name {
+    padding: 2px;
+    background: white;
+    color: #b14de2;
+}
+
+#track-info-box > #track-art {
+    margin-left: 50px;
+}
+
+#album-art {
+    width: 300px;
+    height: 300px;
+}
+
+#audio-player-controls {
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+#time-ticker {
+    margin-left: 10px;
+    display: inline;
+}
+
+#pause {
+    padding: 10px;
+    background: none;
+    border: none;
+}
+#pause:hover {
+    cursor: pointer;
+    background: white;
+}
+#pause:hover > i {
+    color: #b14de2;
+}
+#pause > i {
+    font-family: "Font Awesome 5 Free" !important;
+    font-size: 16px;
+}

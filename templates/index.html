@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/fontawesome.min.js" integrity="sha512-ywaT8M9b+VnJ+jNG14UgRaKg+gf8yVBisU2ce+YJrlWwZa9BaZAE5GK5Yd7CBcP6UXoAnziRQl40/u/qwVZi4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="/static/css/reset.css"/>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">	<link rel="stylesheet" href="/static/css/styles.css"/>
+		<title>Radio</title>
+	</head>
+	<body>
+		<script>
+			// From https://stackoverflow.com/questions/1077041/refresh-image-with-a-new-one-at-the-same-url
+			var cacheIncrement = 0;
+
+			var socket = io();
+
+			socket.on("subscriber_connect", (totalClients) => {
+				var userCount = document.querySelector("#user-count");
+				userCount.innerHTML = totalClients + (totalClients == 1 ? " user" : " users") + " connected"
+			});
+
+			socket.on("mpd_track_change", (trackData) => {
+				console.log("emitted mpd_track_change");
+				var trackName = document.querySelector("#track-name");
+				var albumDetails = document.querySelector("#album-details");
+				var artistDetails = document.querySelector("#artist-details");
+				var genreDetails = document.querySelector("#genre-details");
+				var publicationDetails = document.querySelector("#publication-details");
+				var albumArt = document.querySelector("#album-art");
+
+				trackName.innerHTML = trackData.title;
+				albumDetails.innerHTML = trackData.album ? "Album: " + trackData.album : "No Album Details";
+				artistDetails.innerHTML = trackData.artist ? "Artist: " + trackData.artist : "No Artist Details";
+
+				if (trackData.genre) {
+					genreDetails.innerHTML = "Genre: "
+					if (Array.isArray(trackData.genre)) {
+						genreDetails.innerHTML += trackData.genre.join(", ")
+					}
+					else {
+						genreDetails.innerHTML += trackData.genre
+					}
+				}
+
+				publicationDetails.innerHTML = trackData.date ? "Publication Date: " + trackData.date : "";
+
+				// Make the browser reload the image
+				let artUrl = "/album_art?cacheIncrement=" + cacheIncrement;
+				fetch(artUrl).then(response => { if (!response.ok) {
+					albumArt.style.width = 0
+				} else {
+
+					albumArt.style.width = "300px";
+				} });
+
+				albumArt.src = "/album_art?cacheIncrement=" + cacheIncrement;
+				cacheIncrement++;
+			});
+
+		 function toggleAudio() {
+		 	 var audioPlayer = document.querySelector("#audio-player");
+			 var playPauseIcon = document.querySelector("#play-pause-icon");
+
+			 if (audioPlayer.paused) {
+				audioPlayer.play();
+				playPauseIcon.classList.remove("fa-play");
+				playPauseIcon.classList.add("fa-pause");
+			 }
+			 else {
+				audioPlayer.pause();
+				playPauseIcon.classList.add("fa-play");
+				playPauseIcon.classList.remove("fa-pause");
+			 }
+		 }
+
+		 function ffAudio() {
+		 	 var audioPlayer = document.querySelector("#audio-player");
+			 audioPlayer.currentTime = audioPlayer.duration;
+		 }
+
+		 function updateTicker() {
+		 	 var audioPlayer = document.querySelector("#audio-player");
+			 var timeTicker = document.querySelector("#time-ticker");
+
+			 timeTicker.innerHTML = secondsToString(audioPlayer.currentTime) + " / " + secondsToString(audioPlayer.duration);
+		 }
+
+		 function secondsToString(inputSeconds) {
+			 return String(Math.floor(inputSeconds / 60)).padStart(2, '0') + ":" + String(Math.floor(inputSeconds % 60)).padStart(2, '0');
+		 }
+
+		</script>
+
+		<div id="track-detail-box">
+			<div id="track-info-box">
+				<div id="details-box">
+					<div id="track-info">
+						<h3 id="track-name"></h3>
+						<h4 id="album-details"></h4>
+						<h4 id="artist-details"></h4>
+						<h4 id="genre-details"></h4>
+						<h4 id="publication-details"></h4>
+					</div>
+					<div id="connection-details">
+						<h4 id="user-count"></h4>
+					</div>
+				</div>
+				<div id="track-art">
+					<img id="album-art" src="/album_art"/>
+				</div>
+			</div>
+			<div id="audio-player-controls">
+				<h4 id="time-ticker"></h4>
+				<button id="pause" onClick="toggleAudio()"><i id="play-pause-icon" class="fas fa-pause"></i></button>
+				<button id="pause" onClick="ffAudio()"><i class="fas fa-fast-forward"></i></button>
+			</div>
+		</div>
+
+		<audio id="audio-player" src="http://***REMOVED***" ondurationchange="updateTicker()" ontimeupdate="updateTicker()" autoplay>
+
+	</body>
+</html>
