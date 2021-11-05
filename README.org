@@ -21,6 +21,7 @@ To set this up,
 
 3. Run ~poetry run python3 server.py~ to start the server.
 4. Optionally, if you want to persistently run ~mpd-radio-ui~, edit ~mpd-radio-ui.service~ to match your system's configuration, and then copy it to the systemd user service directory (or if you're running it as root, copy it to ~/usr/lib/systemd/system~):
+
    a. For example (user):
       #+begin_src bash
             cp mpd-radio-ui.service ~/.config/systemd/user
