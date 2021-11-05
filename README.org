@@ -11,7 +11,9 @@ To set this up,
 2. Copy ~config.py.template~ to ~config.py~ and change the variables.
 
    a. You should generate a strong secret key if you're going to use this publicly. I use Ruby's ~SecureRandom~ to do this (~SecureRandom.alphanumeric 48~).
+
    b. By default, ~mpd-radio-ui~ runs on port 19230 and on ~localhost~. You may want to change ~localhost~ to ~0.0.0.0~ if you want this to be accessible on a LAN.
+
    c. You need to find the value of ~music_directory~ in your ~mpd.conf~ and put it in your ~config.py~ (set ~MPD_MUSIC_DIRECTORY~ to the value of ~music_directory~),
       since MPD's album art detection is iffy and it's easier to directly read the music file's (or the music file directory's) metadata for album art.
       For now, I don't know how to extract ~music_directory~ without just reading ~mpd.conf~. You only get relative paths (relative to ~music_directory~) with an MPD
