@@ -12,3 +12,5 @@ SECRET_KEY = ''
 HOST = 'localhost'
 # Webserver port
 PORT = 19230
+# MPD http stream url
+STREAM_URL = 'http://<STREAM-URL>'

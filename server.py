@@ -37,7 +37,7 @@ background_task_running = False
 @app.route("/")
 def index():
     print(mpd_client.currentsong())
-    return render_template("index.html")
+    return render_template("index.html", stream_url=config.STREAM_URL)
 
 @app.route("/album_art")
 def album_art():
@@ -56,15 +56,16 @@ def album_art():
         music_file = os.path.join(music_directory, mpd_current_song)
         file = File(music_file)
 
+        # try the APIC method
+        apic_data = file.get('APIC:')
+        if apic_data:
+            return send_file(BytesIO(apic_data.data), mimetype='image/jpeg')
+
+        # try pictures for FLACs
         for picture in file.pictures:
             print(picture)
             return send_file(BytesIO(picture.data), mimetype='image/jpeg')
 
-        # try the APIC method
-        apic_data = file.get('APIC:')
-        if apic_data:
-            print(apic)
-            return send_file(apic_data.data)
 
         # try to get cover art from the directory
         # https://github.com/mpv-player/mpv/issues/3056
